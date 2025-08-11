@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+
+#############################################
+# Customer API invoked by a customers browser.
+#############################################
+metadata:
+  name: sbetwebflowjs
+  namespace: sbetwebflowjs
+spec:
+  selector:
+    matchLabels:
+      app: sbetwebflowjs
+      tier: content
+      track: test
+  replicas: 1
+  #rollingUpdate:
+  #  maxSurge: 1
+  #  maxUnavailable: 1
+  minReadySeconds: 5
+  template:
+    metadata:
+      labels:
+        app: sbetwebflowjs
+        tier: content
+        track: test
+    spec:
+      containers:
+        - name: sbetwebflowjs
+          image: "azaksclustersharedacr.azurecr.io/sbetwebflowjs:10294"
+          command: ["node", "index.js"]
+          imagePullPolicy: IfNotPresent
+          resources:
+            limits:
+              memory: "200Mi"
+              #cpu: "200m"
+            requests:
+              memory: "100Mi"
+              cpu: "100m"
+          ports:
+            - name: http
+              containerPort: 80
+          #env:
+          #- name: DEBUG
+          #  value: "*"
+          #envFrom:
+          #- configMapRef:
+          #    name: sbetwebflowjs
+          #- secretRef:
+          #    name: sbetwebflowjs

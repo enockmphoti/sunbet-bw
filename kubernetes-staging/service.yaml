@@ -1,0 +1,15 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: sbetwebflowjs
+  namespace: sbetwebflowjs
+spec:
+  type: ClusterIP
+  selector:
+    app: sbetwebflowjs
+    tier: content
+    track: test
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: http
